@@ -1,0 +1,14 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Create Page
+{% endblock %}
+
+{% block body %}
+<h1>Create Page</h1>
+    <form method="post" action="{%url 'new_page'%}">
+        <input type="text" name="new_page_title" placeholder="Title">
+        <textarea  type="text" name="new_page_description"></textarea>
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}
