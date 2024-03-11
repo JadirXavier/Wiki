@@ -22,7 +22,7 @@ def entry_page(request, page):
     html = markdown_to_html(page)
     if html == None:
         return render(request, "encyclopedia/error.html",{
-            "title": page,
+            "title": "Error",
             "msg":"This page does not exist."
         })
     else:
@@ -52,5 +52,19 @@ def search_page(request):
             "entries" : search_results
         })
     
-def create_new_page(request):
+def new_page(request):
+    if request.method == "POST":
+        print(f"Hi {request.POST}")
+        title = request.POST.get("new_page_title")
+        description = request.POST.get("new_page_description")
+        content = f"#{title}\n{description}"
+        entries = util.list_entries()
+        if title in entries:
+            return render(request, "encyclopedia/error.html",{
+                "title": "Error",
+                "msg":"This page already exists"
+            })
+        else:
+            util.save_entry(title, content)
+            return redirect("page", page=title)
     return render(request, 'encyclopedia/new_page.html')

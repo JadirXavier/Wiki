@@ -6,9 +6,12 @@
 
 {% block body %}
 <h1>Create Page</h1>
-    <form method="post" action="{%url 'new_page'%}">
+    <form method="post" action="{%url 'new_page' %}">
+        {% csrf_token %}
         <input type="text" name="new_page_title" placeholder="Title">
+        <br>
         <textarea  type="text" name="new_page_description"></textarea>
+        <br>
         <button type="submit">Save</button>
     </form>
 {% endblock %}
