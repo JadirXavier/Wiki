@@ -20,6 +20,7 @@ def index(request):
 
 def entry_page(request, page):
     html = markdown_to_html(page)
+    print(html)
     if html == None:
         return render(request, "encyclopedia/error.html",{
             "title": "Error",
@@ -54,7 +55,6 @@ def search_page(request):
     
 def new_page(request):
     if request.method == "POST":
-        print(f"Hi {request.POST}")
         title = request.POST.get("new_page_title")
         description = request.POST.get("new_page_description")
         content = f"#{title}\n{description}"
@@ -68,3 +68,9 @@ def new_page(request):
             util.save_entry(title, content)
             return redirect("page", page=title)
     return render(request, 'encyclopedia/new_page.html')
+
+def edit_page(request, page):    
+    return render(request, "encyclopedia/edit_page.html",{
+        "edit_page_description" : '\n'.join(util.get_entry(page).split('\n')[2:]),
+        "edit_page_title": page
+    })
